@@ -3,10 +3,21 @@ dotenv.config({
     path : './env'
 });  // configuring dotenv to use env variables
 import connectDB from './db/index.js';
-connectDB();  // calling the function to connect to database
+import app from './app.js';
+connectDB()  // calling the function to connect to database
+.then(() => {
+    app.on("error",(error)=>{   
+            console.log("ERROR : ",error);
+            
+        })
+    app.listen(process.env.PORT || 8000,()=>{
+           console.log(`App is listening on Port ${process.env.PORT}`);  
+    })
+})
+.catch((error)=>{
+    console.log("MONGODB CONNECTION FAILED : ",error);
 
-
-/*
+})/*
 const app = express()
 (async () => {  // database can be in different contient hence async await is used
     try{
